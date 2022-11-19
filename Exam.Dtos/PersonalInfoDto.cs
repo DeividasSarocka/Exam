@@ -14,7 +14,6 @@ namespace Exam.Dtos
         public string PersonalNumber { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
-        public byte[] Image { get; set; } 
         public ResidentialInfoDto ResidentialInfo { get; set; }
 
     }

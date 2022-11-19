@@ -1,3 +1,4 @@
+using Exam.BL;
 using Exam.DAL;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,6 +14,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")));
 builder.Services.AddScoped<IDbRepository, DbRepository>();
+builder.Services.AddScoped<IUserAccountsService, UserAccountsService>();
 
 var app = builder.Build();
 

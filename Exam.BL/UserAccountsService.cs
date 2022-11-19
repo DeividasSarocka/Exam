@@ -1,6 +1,9 @@
 ﻿using Exam.DAL;
 using Exam.Domain;
 using Exam.Dtos;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.Formats.Png;
+using SixLabors.ImageSharp.Processing;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +45,7 @@ namespace Exam.BL
                     PersonalNumber = signupDto.PersonalInfo.PersonalNumber,
                     PhoneNumber = signupDto.PersonalInfo.PhoneNumber,
                     Email = signupDto.PersonalInfo.Email,
-                    Image = ProcessImage(imageBytes),
+                    Image = ReduceImage(imageBytes),
                     ResidentialInfo = new ResidentialInfo
                     {
                         City = signupDto.PersonalInfo.ResidentialInfo.City,
@@ -58,9 +61,16 @@ namespace Exam.BL
             return true;
         }
 
-        private byte[] ProcessImage(byte[] imageBytes)
+        private static byte[] ReduceImage(byte[] imageBytes)
         {
-            throw new NotImplementedException();               // TVARKYTI
+                using var memoryStream = new MemoryStream(imageBytes);
+                using var image = Image.Load(memoryStream);
+                image.Mutate(x => x.Resize(200, 200));
+                using var outputStream = new MemoryStream();
+                image.Save(outputStream, new PngEncoder());
+                imageBytes = outputStream.ToArray();
+                return imageBytes;
+            
         }
 
         private (byte[] hash, byte[] salt) CreatePasswordHash(string password)
