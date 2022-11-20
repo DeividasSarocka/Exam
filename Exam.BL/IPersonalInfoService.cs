@@ -15,4 +15,8 @@ namespace Exam.BL
         Task UpdateEmailAsync(string email, int id);
         Task UpdateImageAsync(byte[] imageBytes, int id);
     }
+
+
+
+
 }
