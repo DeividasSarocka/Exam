@@ -1,4 +1,6 @@
-﻿namespace Exam.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Exam.Domain
 {
     public class PersonalInfo
     {
@@ -10,6 +12,5 @@
         public string Email { get; set; }
         public byte[] Image { get; set; }
         public ResidentialInfo ResidentialInfo { get; set; }
-
     }
 }

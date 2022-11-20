@@ -30,56 +30,69 @@ namespace Exam.DAL
             var userAccount = await _context.UserAccounts.Include(u => u.PersonalInfo).Include(u => u.PersonalInfo.ResidentialInfo).SingleOrDefaultAsync(x => x.Id == id);
             return userAccount;
         }
+
         public async Task DeleteUserAccountAsync(int id)
         {
             var userAcount = await GetUserAccountAsync(id);
             _context.UserAccounts.Remove(userAcount);
+            _context.PersonalInfos.Remove(userAcount.PersonalInfo);
+            _context.ResidentialInfos.Remove(userAcount.PersonalInfo.ResidentialInfo);
         }
+
         public async Task UpdateFirstNameAsync(string firstName, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.FirstName = firstName;
         }
+
         public async Task UpdateLastNameAsync(string lastName, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.LastName = lastName;
         }
+
         public async Task UpdatePersonalNumberAsync(string personalNumber, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.PersonalNumber = personalNumber;
         }
+
         public async Task UpdatePhoneNumberAsync(string phoneNumber, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.PhoneNumber = phoneNumber;
         }
+
         public async Task UpdateEmailAsync(string email, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.Email = email;
         }
+
         public async Task UpdateImageAsync(byte[] imageBytes, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.Image = imageBytes;
         }
+
         public async Task UpdateCityAsync(string city, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.ResidentialInfo.City = city;
         }
+
         public async Task UpdateStreetNameAsync(string streetName, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.ResidentialInfo.StreetName = streetName;
         }
+
         public async Task UpdateHouseNumberAsync(string houseNumber, int id)
         {
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.ResidentialInfo.HouseNumber = houseNumber;
         }
+
         public async Task UpdateApartmentNumberAsync(string apartmentNumber, int id)
         {
             var account = await GetUserAccountAsync(id);

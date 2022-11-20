@@ -12,6 +12,5 @@ namespace Exam.DAL
             public AppDbContext(DbContextOptions options) : base(options)  
             {
             }
-        
     }
 }

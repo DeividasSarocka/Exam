@@ -1,4 +1,6 @@
-﻿namespace Exam.Domain
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Exam.Domain
 {
     public class ResidentialInfo
     {
