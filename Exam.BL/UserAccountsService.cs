@@ -70,7 +70,6 @@ namespace Exam.BL
                 image.Save(outputStream, new PngEncoder());
                 imageBytes = outputStream.ToArray();
                 return imageBytes;
-            
         }
 
         private (byte[] hash, byte[] salt) CreatePasswordHash(string password)
@@ -81,9 +80,28 @@ namespace Exam.BL
 
             return (hash, salt);
         }
-        public Task<(bool authenticationSuccessful, UserAccount? userAccount)> LoginAsync(string userName, string password)
+        public async Task<(bool authenticationSuccessful, UserAccount? userAccount)> LoginAsync(string userName, string password)
         {
-            throw new NotImplementedException();              // TVARKYTI
+            var account = await _dbRepository.GetAccountByUserNameAsync(userName);
+            if (account == null)
+            {
+                return (false, null);
+            }
+            if (VerifyPasswordHash(password, account.PasswordHash, account.PasswordSalt))
+            {
+                return (true, account);
+            }
+            else
+            {
+                return (false, null);
+            }
+        }
+        private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
+        {
+            using var hmac = new HMACSHA512(passwordSalt);
+            var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            return computedHash.SequenceEqual(passwordHash);
         }
     }
 }

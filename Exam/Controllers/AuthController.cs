@@ -10,11 +10,11 @@ namespace Exam.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IUserAccountsService _userAccountsService;
-        //private readonly IJwtService _jwtService;
-        public AuthController(IUserAccountsService userAccountsService/*, IJwtService jwtService*/)                                                     
+        private readonly IJwtService _jwtService;
+        public AuthController(IUserAccountsService userAccountsService, IJwtService jwtService)                                                     
         {
             _userAccountsService = userAccountsService;
-           // _jwtService = jwtService;
+            _jwtService = jwtService;
         }
         [HttpPost("Signup")]
         public async Task<IActionResult> Signup([FromQuery] SignupDto signupDto, [FromForm] ImageUploadRequest request) 
@@ -26,6 +26,21 @@ namespace Exam.Controllers
             return success ? Ok() : BadRequest(new { ErrorMessage = "User already exist" });
         }
 
+        [HttpPost("Login")]
+        public async Task<IActionResult> Login(LoginDto loginDto)
+        {
+            var (loginSuccess, account) = await _userAccountsService.LoginAsync(loginDto.UserName, loginDto.Password);
+
+            if (loginSuccess)
+            {
+                return Ok(_jwtService.GetJwtToken(account));
+            }
+            else
+            {
+                return BadRequest(new { ErrorMessage = "Login failed" });
+            }
+
+        }
 
         //[HttpPost("Upload")]                        //TRINTI JUODRASTIS
         //public ActionResult UploadImage([FromForm]ImageUploadRequest request)
@@ -36,5 +51,6 @@ namespace Exam.Controllers
         //    //TODO: Save image to database
         //    return Ok();
         //}
+
     }
 }
