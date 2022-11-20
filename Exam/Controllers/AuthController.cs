@@ -1,9 +1,6 @@
 ﻿using Exam.BL;
-using Exam.Domain;
 using Exam.Dtos;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.Documents;
 
 namespace Exam.Controllers
 {
@@ -35,17 +32,13 @@ namespace Exam.Controllers
 
             if (loginSuccess)
             {
-                return Ok(new {Token = _jwtService.GetJwtToken(account), Role = account.Role});
+                return Ok(new { Token = _jwtService.GetJwtToken(account), Role = account.Role });
+                
             }
             else
             {
                 return BadRequest(new { ErrorMessage = "Login failed" });
             }
-
         }
-
-
-        
-
     }
 }
