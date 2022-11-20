@@ -45,6 +45,7 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DbConnection")))
 builder.Services.AddScoped<IDbRepository, DbRepository>();
 builder.Services.AddScoped<IUserAccountsService, UserAccountsService>();
 builder.Services.AddScoped<IJwtService, JwtService>();
+builder.Services.AddScoped<IUsersService, UsersService>();
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
@@ -62,7 +63,7 @@ builder.Services.AddAuthorizationCore();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment()) 
 {
     app.UseSwagger();
     app.UseSwaggerUI();

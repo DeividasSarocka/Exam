@@ -29,5 +29,17 @@ namespace Exam.DAL
         {
             await _context.SaveChangesAsync();
         }
+
+        public async Task<UserAccount> GetUserAccountAsync(int id)
+        {
+            var userAccount = await _context.UserAccounts.Include(u => u.PersonalInfo).Include(u => u.PersonalInfo.ResidentialInfo).SingleOrDefaultAsync(x => x.Id == id);
+            return userAccount;
+        }
+        public async Task DeleteUserAccountAsync(int id)
+        {
+            var userAcount = await GetUserAccountAsync(id);
+            _context.UserAccounts.Remove(userAcount);
+        }
+  
     }
 }

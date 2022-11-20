@@ -1,7 +1,9 @@
 ﻿using Exam.BL;
+using Exam.Domain;
 using Exam.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Documents;
 
 namespace Exam.Controllers
 {
@@ -33,7 +35,7 @@ namespace Exam.Controllers
 
             if (loginSuccess)
             {
-                return Ok(_jwtService.GetJwtToken(account));
+                return Ok(new {Token = _jwtService.GetJwtToken(account), Role = account.Role});
             }
             else
             {
@@ -42,15 +44,7 @@ namespace Exam.Controllers
 
         }
 
-        //[HttpPost("Upload")]                        //TRINTI JUODRASTIS
-        //public ActionResult UploadImage([FromForm]ImageUploadRequest request)
-        //{
-        //    using var memoryStream = new MemoryStream();
-        //    request.Image.CopyTo(memoryStream);
-        //    var imageBytes = memoryStream.ToArray();
-        //    //TODO: Save image to database
-        //    return Ok();
-        //}
+        
 
     }
 }

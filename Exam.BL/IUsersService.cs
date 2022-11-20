@@ -5,17 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Exam.DAL
+namespace Exam.BL
 {
-    public interface IDbRepository
+    public interface IUsersService
     {
-        Task<UserAccount?> GetAccountByUserNameAsync(string username); 
-        Task InsertAccountAsync(UserAccount userAccount); 
-        Task SaveChangesAsync();
         Task<UserAccount> GetUserAccountAsync(int id);
         Task DeleteUserAccountAsync(int id);
-    
-     
     }
 }
-

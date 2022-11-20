@@ -37,7 +37,6 @@ namespace Exam.BL
                 PasswordHash = hash,
                 PasswordSalt = salt,
                 Role = "User",
-
                 PersonalInfo = new PersonalInfo
                 {
                     FirstName = signupDto.PersonalInfo.FirstName,
@@ -60,7 +59,6 @@ namespace Exam.BL
 
             return true;
         }
-
         private static byte[] ReduceImage(byte[] imageBytes)
         {
                 using var memoryStream = new MemoryStream(imageBytes);
@@ -70,15 +68,6 @@ namespace Exam.BL
                 image.Save(outputStream, new PngEncoder());
                 imageBytes = outputStream.ToArray();
                 return imageBytes;
-        }
-
-        private (byte[] hash, byte[] salt) CreatePasswordHash(string password)
-        {
-            using var hmac = new HMACSHA512();
-            var salt = hmac.Key;
-            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-            return (hash, salt);
         }
         public async Task<(bool authenticationSuccessful, UserAccount? userAccount)> LoginAsync(string userName, string password)
         {
@@ -96,11 +85,18 @@ namespace Exam.BL
                 return (false, null);
             }
         }
+        private (byte[] hash, byte[] salt) CreatePasswordHash(string password)
+        {
+            using var hmac = new HMACSHA512();
+            var salt = hmac.Key;
+            var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            return (hash, salt);
+        }
         private bool VerifyPasswordHash(string password, byte[] passwordHash, byte[] passwordSalt)
         {
             using var hmac = new HMACSHA512(passwordSalt);
             var computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
             return computedHash.SequenceEqual(passwordHash);
         }
     }
