@@ -98,8 +98,11 @@ namespace Exam.DAL
             var account = await GetUserAccountAsync(id);
             account.PersonalInfo.ResidentialInfo.ApartmentNumber = apartmentNumber;
         }
-            
 
-  
+       public async Task<UserAccount> GetImageAsync(int id)
+        {
+            var account = await _context.UserAccounts.Include(u => u.PersonalInfo).FirstOrDefaultAsync(i => i.Id == id);
+            return account;
+        }
     }
 }

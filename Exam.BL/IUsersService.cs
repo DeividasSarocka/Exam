@@ -6,5 +6,7 @@ namespace Exam.BL
     {
         Task<UserAccount> GetUserAccountAsync(int id);
         Task DeleteUserAccountAsync(int id);
+        Task<UserAccount> GetImageAsync(int id);
+
     }
 }

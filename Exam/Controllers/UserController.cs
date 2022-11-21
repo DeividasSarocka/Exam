@@ -9,7 +9,7 @@ namespace Exam.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
+
     public class UserController : ControllerBase
     {
         private readonly IUsersService _usersService;
@@ -32,6 +32,16 @@ namespace Exam.Controllers
         {
             await _usersService.DeleteUserAccountAsync(id);
         }
-        
+
+        [HttpGet("GetImage")]
+        [Authorize]
+            public async Task<ActionResult> GetImageAsync()
+            {
+                var id = int.Parse(User.Claims.FirstOrDefault(u => u.Type == ClaimTypes.NameIdentifier).Value);
+                var image = await _usersService.GetImageAsync(id);
+            
+                return File(image.PersonalInfo.Image, "image/png");
+            }
+        }
     }
-}
+

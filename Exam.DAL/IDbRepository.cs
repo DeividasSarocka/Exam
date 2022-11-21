@@ -19,6 +19,7 @@ namespace Exam.DAL
         Task UpdateStreetNameAsync(string streetName, int id);
         Task UpdateHouseNumberAsync(string houseNumber, int id);
         Task UpdateApartmentNumberAsync(string apartmentNumber, int id);
+        Task<UserAccount> GetImageAsync(int id);
     }
 }
 
